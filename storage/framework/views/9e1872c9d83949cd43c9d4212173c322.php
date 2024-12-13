@@ -1,9 +1,18 @@
-<x-admin-layout>
-    <x-slot name="header">
+<?php if (isset($component)) { $__componentOriginal91fdd17964e43374ae18c674f95cdaa3 = $component; } ?>
+<?php $component = App\View\Components\AdminLayout::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('admin-layout'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(App\View\Components\AdminLayout::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
+     <?php $__env->slot('header', null, []); ?> 
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
+            <?php echo e(__('Dashboard')); ?>
+
         </h2>
-    </x-slot>
+     <?php $__env->endSlot(); ?>
     <div class="">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 gap-4 px-4 mt-8 sm:grid-cols-4 sm:px-8 mb-2">
@@ -16,7 +25,7 @@
                         </svg></div>
                     <div class="px-4 text-gray-700">
                         <h3 class="text-sm tracking-wider">Total Customers</h3>
-                        <p class="text-3xl">{{ $total_customers }}</p>
+                        <p class="text-3xl"><?php echo e($total_customers); ?></p>
                     </div>
                 </div>
                 <div class="flex items-center bg-white  rounded-lg overflow-hidden shadow">
@@ -29,7 +38,7 @@
                     </div>
                     <div class="px-4 text-gray-700">
                         <h3 class="text-sm tracking-wider">Total bookings</h3>
-                        <p class="text-3xl">{{ $total_bookings }}</p>
+                        <p class="text-3xl"><?php echo e($total_bookings); ?></p>
                     </div>
                 </div>
                 <div class="flex items-center bg-white  rounded-lg overflow-hidden shadow">
@@ -42,7 +51,7 @@
                     </div>
                     <div class="px-4 text-gray-700">
                         <h3 class="text-sm tracking-wider">Today's bookings</h3>
-                        <p class="text-3xl">{{ $todays_bookings }}</p>
+                        <p class="text-3xl"><?php echo e($todays_bookings); ?></p>
                     </div>
                 </div>
                 <div class="flex items-center bg-white  rounded-lg overflow-hidden shadow">
@@ -55,30 +64,32 @@
                     </div>
                     <div class="px-4 text-gray-700">
                         <h3 class="text-sm tracking-wider">Upcoming bookings</h3>
-                        <p class="text-3xl">{{ $upcoming_bookings }}</p>
+                        <p class="text-3xl"><?php echo e($upcoming_bookings); ?></p>
                     </div>
                 </div>
             </div>
             <div class="flex flex-col md:flex-row justify-around">
                 <div class="flex justify-around items-center rounded-lg">
-                    @if ($filter == '1')
+                    <?php if($filter == '1'): ?>
                         <span class="px-4 bg-sky-500 hover:bg-sky-700 rounded-lg text-white">
-                            {{ \Carbon\Carbon::parse($startdate)->format('Y-m-d H:i') }}
+                            <?php echo e(\Carbon\Carbon::parse($startdate)->format('Y-m-d H:i')); ?>
+
                             <span class="mx-2 dark:text-white font-bold">TO</span>
-                            {{ \Carbon\Carbon::parse($enddate)->format('Y-m-d H:i') }}
+                            <?php echo e(\Carbon\Carbon::parse($enddate)->format('Y-m-d H:i')); ?>
+
                         </span>
                         <a href="/admin"
                             class="flex items-center px-4 bg-sky-500 hover:bg-sky-700 rounded-lg text-white ml-2">
                             <i class="fas fa-times"></i>
                             <span class="ml-1">Close filter</span>
                         </a>
-                    @endif
+                    <?php endif; ?>
                 </div>
 
-                <form action="{{ route('admin.reservationshome.filter') }}" method="POST"
+                <form action="<?php echo e(route('admin.reservationshome.filter')); ?>" method="POST"
                     class="flex justify-around items-center rounded-lg mr-12 flex-col md:flex-row gap-2"
                     id="reservationForm">
-                    @csrf
+                    <?php echo csrf_field(); ?>
                     <div class="">
                         <label for="filter_date" class="text-gray-700 dark:text-white">Date</label>
                         <input type="text" id="filter_date" name="date"
@@ -144,16 +155,16 @@
             <h4 class="dark:text-white font-bold">BANDAS</h4>
             <hr>
             <div class="flex flex-wrap w-full justify-between mt-6 mb-6">
-                @foreach ($tables as $table)
-                    @php
+                <?php $__currentLoopData = $tables; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $table): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <?php
                         $reservations = $table->reservations;
                         $reservationIds = $reservations->pluck('id')->toArray();
-                    @endphp
-                    @if ($table->location->name == 'Banda')
-                        <a href="/admin/reservation/show/{{ implode(',', $reservationIds) }}">
+                    ?>
+                    <?php if($table->location->name == 'Banda'): ?>
+                        <a href="/admin/reservation/show/<?php echo e(implode(',', $reservationIds)); ?>">
                             <span
                                 class="m-2 flex justify-center rounded-full items-center px-4 py-2                               
-                                @php
+                                <?php
 $reservationOverlap = false;
                                 foreach ($reservations as $reservation) {
                                     $resStartDate = \Carbon\Carbon::parse($reservation->res_date);
@@ -165,29 +176,29 @@ $reservationOverlap = false;
                                         break;
                                     }
                                 }
-                                echo $reservationOverlap ? 'bg-gradient-to-r from-red-500  to-rose-600 hover:bg-red-700' : 'bg-gradient-to-r from-emerald-600 to bg-emerald-400 hover:bg-emerald-700'; @endphp
+                                echo $reservationOverlap ? 'bg-gradient-to-r from-red-500  to-rose-600 hover:bg-red-700' : 'bg-gradient-to-r from-emerald-600 to bg-emerald-400 hover:bg-emerald-700'; ?>
                                 shadow-lg text-white"
                                 style="height:90px; width:90px">
-                                <strong>{{ $table->name }}</strong>
+                                <strong><?php echo e($table->name); ?></strong>
                             </span>
                         </a>
-                    @endif
-                @endforeach
+                    <?php endif; ?>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
             <h4 class="dark:text-white font-bold">DUG</h4>
             <hr>
             <div class="flex flex-wrap w-full justify-between mt-6 mb-6">
-                @foreach ($tables as $table)
-                    @php
+                <?php $__currentLoopData = $tables; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $table): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <?php
                         $reservations = $table->reservations;
                         $reservationIds = $reservations->pluck('id')->toArray();
-                    @endphp
+                    ?>
 
-                    @if ($table->location->name == 'DUG')
-                        <a href="/admin/reservation/show/{{ implode(',', $reservationIds) }}">
+                    <?php if($table->location->name == 'DUG'): ?>
+                        <a href="/admin/reservation/show/<?php echo e(implode(',', $reservationIds)); ?>">
                             <span
                                 class="m-2 flex justify-center rounded-full items-center px-4 py-2                               
-                            @php
+                            <?php
 $reservationOverlap = false;
                             foreach ($reservations as $reservation) {
                                 $resStartDate = \Carbon\Carbon::parse($reservation->res_date);
@@ -201,30 +212,30 @@ $reservationOverlap = false;
                                     break;
                                 }
                             }
-                            echo $reservationOverlap ? 'bg-gradient-to-r from-red-500  to-rose-600 hover:bg-red-700' : 'bg-gradient-to-r from-emerald-600 to bg-emerald-400 hover:bg-emerald-700'; @endphp
+                            echo $reservationOverlap ? 'bg-gradient-to-r from-red-500  to-rose-600 hover:bg-red-700' : 'bg-gradient-to-r from-emerald-600 to bg-emerald-400 hover:bg-emerald-700'; ?>
                             shadow-lg text-white"
                                 style="height:90px; width:90px;clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);">
-                                <strong>{{ $table->name }}</strong>
+                                <strong><?php echo e($table->name); ?></strong>
                             </span>
                         </a>
-                    @endif
-                @endforeach
+                    <?php endif; ?>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
             <h4 class="dark:text-white font-bold">BAR</h4>
             <hr>
             <div class="flex flex-wrap w-full justify-between mt-6 mb-6">
-                @foreach ($tables as $table)
-                    @php
+                <?php $__currentLoopData = $tables; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $table): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <?php
                         $reservations = $table->reservations;
                         $reservationIds = $reservations->pluck('id')->toArray();
-                    @endphp
+                    ?>
 
 
-                    @if ($table->location->name == 'Bar')
-                        <a href="/admin/reservation/show/{{ implode(',', $reservationIds) }}">
+                    <?php if($table->location->name == 'Bar'): ?>
+                        <a href="/admin/reservation/show/<?php echo e(implode(',', $reservationIds)); ?>">
                             <span
                                 class="m-2 flex justify-center rounded-full items-center px-4 py-2                               
-                            @php
+                            <?php
 $reservationOverlap = false;
                             foreach ($reservations as $reservation) {
                                 $resStartDate = \Carbon\Carbon::parse($reservation->res_date);
@@ -239,29 +250,29 @@ $reservationOverlap = false;
                                     break;
                                 }
                             }
-                            echo $reservationOverlap ? 'bg-gradient-to-r from-red-500  to-rose-600 hover:bg-red-700' : 'bg-gradient-to-r from-emerald-600 to bg-emerald-400 hover:bg-emerald-700'; @endphp
+                            echo $reservationOverlap ? 'bg-gradient-to-r from-red-500  to-rose-600 hover:bg-red-700' : 'bg-gradient-to-r from-emerald-600 to bg-emerald-400 hover:bg-emerald-700'; ?>
                             shadow-lg text-white"
                                 style="height:60px; width:100px">
-                                <strong>{{ $table->name }}</strong>
+                                <strong><?php echo e($table->name); ?></strong>
                             </span>
                         </a>
-                    @endif
-                @endforeach
+                    <?php endif; ?>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
             <h4 class="dark:text-white font-bold">BAR - (Lawn)</h4>
             <hr>
             <div class="flex flex-wrap w-full justify-between mt-6 mb-6">
-                @foreach ($tables as $table)
-                    @php
+                <?php $__currentLoopData = $tables; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $table): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <?php
                         $reservations = $table->reservations;
                         $reservationIds = $reservations->pluck('id')->toArray();
-                    @endphp
+                    ?>
 
-                    @if ($table->location->name == 'Bar( Lawn)')
-                        <a href="/admin/reservation/show/{{ implode(',', $reservationIds) }}">
+                    <?php if($table->location->name == 'Bar( Lawn)'): ?>
+                        <a href="/admin/reservation/show/<?php echo e(implode(',', $reservationIds)); ?>">
                             <span
                                 class="m-2 flex justify-center rounded-full items-center px-4 py-2                               
-                                @php
+                                <?php
 $reservationOverlap = false;
                                 foreach ($reservations as $reservation) {
                                     $resStartDate = \Carbon\Carbon::parse($reservation->res_date);
@@ -274,21 +285,21 @@ $reservationOverlap = false;
                                         break;
                                     }
                                 }
-                                echo $reservationOverlap ? 'bg-gradient-to-r from-red-500  to-rose-600 hover:bg-red-700' : 'bg-gradient-to-r from-emerald-600 to bg-emerald-400 hover:bg-emerald-700'; @endphp
+                                echo $reservationOverlap ? 'bg-gradient-to-r from-red-500  to-rose-600 hover:bg-red-700' : 'bg-gradient-to-r from-emerald-600 to bg-emerald-400 hover:bg-emerald-700'; ?>
                                 shadow-lg text-white"
                                 style="height:90px; width:90px;clip-path: polygon(50% 0%, 85% 13%, 100% 50%, 85% 87%, 50% 100%, 15% 87%, 0% 50%, 15% 13%););">
-                                <strong>{{ $table->name }}</strong>
+                                <strong><?php echo e($table->name); ?></strong>
                             </span>
                         </a>
-                    @endif
-                @endforeach
+                    <?php endif; ?>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
             <h4 class="dark:text-white font-bold">BANQUET</h4>
             <hr>
             <div class="flex flex-wrap w-full justify-between mt-6 mb-6">
-                @foreach ($tables as $table)
-                    @if ($table->location->name == 'Banquet')
-                        @php
+                <?php $__currentLoopData = $tables; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $table): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <?php if($table->location->name == 'Banquet'): ?>
+                        <?php
                             $reservations = $table->reservations;
                             $reservationIds = $reservations->pluck('id')->toArray();
                             $AreaReservations = App\Models\LocationReservations::where(
@@ -297,12 +308,12 @@ $reservationOverlap = false;
                             )
                                 ->whereDate('res_date', \Carbon\Carbon::parse($startdate)->toDateString())
                                 ->get();
-                        @endphp
+                        ?>
 
-                        <a href="/admin/reservation/show/{{ implode(',', $reservationIds) }}">
+                        <a href="/admin/reservation/show/<?php echo e(implode(',', $reservationIds)); ?>">
                             <span
                                 class="m-2 flex justify-center rounded-lg items-center px-4 py-2                               
-                                @php
+                                <?php
 $reservationOverlapTables = false;
                                 $reservationOverlapAreas = false;
                               foreach ($AreaReservations as $reservation) {
@@ -327,18 +338,23 @@ $reservationOverlapTables = false;
                                         break;
                                     }
                                 }
-                                echo $reservationOverlapTables || $reservationOverlapAreas ? 'bg-gradient-to-r from-red-500  to-rose-600 hover:bg-red-700' : 'bg-gradient-to-r from-emerald-600 to bg-emerald-400 hover:bg-emerald-700'; @endphp
+                                echo $reservationOverlapTables || $reservationOverlapAreas ? 'bg-gradient-to-r from-red-500  to-rose-600 hover:bg-red-700' : 'bg-gradient-to-r from-emerald-600 to bg-emerald-400 hover:bg-emerald-700'; ?>
                                 shadow-lg text-white"
                                 style="height:60px; width:100px">
-                                <strong>{{ $table->name }}</strong>
+                                <strong><?php echo e($table->name); ?></strong>
                             </span>
                         </a>
-                    @endif
-                @endforeach
+                    <?php endif; ?>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
         </div>
     </div>
-</x-admin-layout>
+ <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal91fdd17964e43374ae18c674f95cdaa3)): ?>
+<?php $component = $__componentOriginal91fdd17964e43374ae18c674f95cdaa3; ?>
+<?php unset($__componentOriginal91fdd17964e43374ae18c674f95cdaa3); ?>
+<?php endif; ?>
 <script>
     flatpickr("#filter_date", {
         dateFormat: "Y-m-d"
@@ -377,3 +393,4 @@ $reservationOverlapTables = false;
         this.submit();
     });
 </script>
+<?php /**PATH C:\Users\Admin\Desktop\Mesh\Reservation Ms\resources\views/admin/index.blade.php ENDPATH**/ ?>

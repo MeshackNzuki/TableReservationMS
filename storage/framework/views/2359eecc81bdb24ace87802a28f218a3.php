@@ -1,9 +1,18 @@
-<x-admin-layout>
-    <x-slot name="header">
+<?php if (isset($component)) { $__componentOriginal91fdd17964e43374ae18c674f95cdaa3 = $component; } ?>
+<?php $component = App\View\Components\AdminLayout::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('admin-layout'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(App\View\Components\AdminLayout::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
+     <?php $__env->slot('header', null, []); ?> 
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
+            <?php echo e(__('Dashboard')); ?>
+
         </h2>
-    </x-slot>
+     <?php $__env->endSlot(); ?>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -11,9 +20,9 @@
 
                 <a href="https://rollingstones.co.ke/admin/"
                     class="px-4 py-2 bg-indigo-500 hover:bg-indigo-700 rounded-lg text-white">Back</a> <a
-                    href="{{ route('admin.reservations.create') }}"
+                    href="<?php echo e(route('admin.reservations.create')); ?>"
                     class="px-4 py-2 bg-indigo-500 hover:bg-indigo-700 rounded-lg text-white">New Table Reservation</a>
-                <a href="{{ route('admin.locationreservations.create') }}"
+                <a href="<?php echo e(route('admin.locationreservations.create')); ?>"
                     class="px-4 py-2 bg-indigo-500 hover:bg-indigo-700 rounded-lg text-white">New Area Reservation</a>
 
             </div>
@@ -71,81 +80,90 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if ($reservations)
-                                        @foreach ($reservations as $reservation)
+                                    <?php if($reservations): ?>
+                                        <?php $__currentLoopData = $reservations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $reservation): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                                 <td
                                                     class="py-4 px-6 text-sm font-medium uppercase text-gray-900 whitespace-nowrap dark:text-gray-500">
-                                                    {{ $reservation->user->name }}
+                                                    <?php echo e($reservation->user->name); ?>
+
                                                 </td>
                                                 <td
                                                     class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-500">
-                                                    {{ $reservation->user->tel_number }}
-                                                </td>
-                                                <td
-                                                    class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400">
-                                                    {{ \Carbon\Carbon::parse($reservation->res_date)->format('Y/m/d') }}
-                                                </td>
-                                                <td
-                                                    class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400">
-                                                    {{ \Carbon\Carbon::parse($reservation->res_date)->format('H:i:s') }}
-                                                </td>
-                                                <td
-                                                    class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400">
-                                                    {{ \Carbon\Carbon::parse($reservation->checkout_date)->format('m/d  H:i:s') }}
-                                                </td>
-                                                <td
-                                                    class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400">
-                                                    {{ $reservation->table->name }}
-                                                </td>
-                                                <td
-                                                    class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400">
-                                                    @php
-                                                        $locationName = \App\Models\Location::where(
-                                                            'id',
-                                                            $reservation->table->location_id,
-                                                        )->value('name');
-                                                    @endphp {{ $locationName }}
+                                                    <?php echo e($reservation->user->tel_number); ?>
 
                                                 </td>
                                                 <td
                                                     class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400">
-                                                    {{ $reservation->guest_number }}
+                                                    <?php echo e(\Carbon\Carbon::parse($reservation->res_date)->format('Y/m/d')); ?>
+
                                                 </td>
                                                 <td
                                                     class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400">
-                                                    @if ($reservation->recurring == 1)
+                                                    <?php echo e(\Carbon\Carbon::parse($reservation->res_date)->format('H:i:s')); ?>
+
+                                                </td>
+                                                <td
+                                                    class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400">
+                                                    <?php echo e(\Carbon\Carbon::parse($reservation->checkout_date)->format('m/d  H:i:s')); ?>
+
+                                                </td>
+                                                <td
+                                                    class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400">
+                                                    <?php echo e($reservation->table->name); ?>
+
+                                                </td>
+                                                <td
+                                                    class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400">
+                                                    <?php
+                                                        $locationName = \App\Models\Location::where(
+                                                            'id',
+                                                            $reservation->table->location_id,
+                                                        )->value('name');
+                                                    ?> <?php echo e($locationName); ?>
+
+
+                                                </td>
+                                                <td
+                                                    class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400">
+                                                    <?php echo e($reservation->guest_number); ?>
+
+                                                </td>
+                                                <td
+                                                    class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400">
+                                                    <?php if($reservation->recurring == 1): ?>
                                                         Yes
-                                                    @else
+                                                    <?php else: ?>
                                                         No
-                                                    @endif
+                                                    <?php endif; ?>
                                                 </td>
                                                 <td
                                                     class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-500">
-                                                    {{ $reservation->ref }}
+                                                    <?php echo e($reservation->ref); ?>
+
                                                 </td>
                                                 <td class="py-4 px-6 text-sm font-medium text-right whitespace-nowrap">
                                                     <div class="flex space-x-2">
-                                                        <a href="{{ route('admin.reservations.edit', $reservation->id) }}"
+                                                        <a href="<?php echo e(route('admin.reservations.edit', $reservation->id)); ?>"
                                                             class="px-4 py-2 bg-emerald-500 hover:bg-emerald-700 rounded-lg  text-white">Edit</a>
-                                                        @if (Auth::user()->is_super_admin)
+                                                        <?php if(Auth::user()->is_super_admin): ?>
                                                             <form
                                                                 class="px-4 py-2 bg-red-500 hover:bg-red-700 rounded-lg text-white"
                                                                 method="POST"
-                                                                action="{{ route('admin.reservations.destroy', $reservation->id) }}"
+                                                                action="<?php echo e(route('admin.reservations.destroy', $reservation->id)); ?>"
                                                                 onsubmit="return confirm('Are you sure?');">
-                                                                @csrf
-                                                                @method('DELETE')
+                                                                <?php echo csrf_field(); ?>
+                                                                <?php echo method_field('DELETE'); ?>
                                                                 <button type="submit">Delete</button>
                                                             </form>
-                                                        @endif
+                                                        <?php endif; ?>
                                                     </div>
                                                 </td>
                                             </tr>
-                                        @endforeach
-                                    @else
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    <?php else: ?>
                                         <span>This table is free at the moment</span>
-                                    @endif
+                                    <?php endif; ?>
                                 </tbody>
                             </table>
                         </div>
@@ -154,5 +172,11 @@
             </div>
         </div>
     </div>
-</x-admin-layout>
+ <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal91fdd17964e43374ae18c674f95cdaa3)): ?>
+<?php $component = $__componentOriginal91fdd17964e43374ae18c674f95cdaa3; ?>
+<?php unset($__componentOriginal91fdd17964e43374ae18c674f95cdaa3); ?>
+<?php endif; ?>
 <script></script>
+<?php /**PATH C:\Users\Admin\Desktop\Mesh\Reservation Ms\resources\views/admin/reservations/viewReservation.blade.php ENDPATH**/ ?>
