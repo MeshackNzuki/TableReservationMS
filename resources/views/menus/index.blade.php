@@ -38,7 +38,7 @@
                         </a>
                     @endforeach
                 </div>
-                <div class="w-full text-center mt-6">End!</div>
+                <div class="w-full text-center">-----------<>-----------</div>
             </div>
 
         </div>

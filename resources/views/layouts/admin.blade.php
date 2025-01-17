@@ -13,6 +13,8 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+ <!-- CDN the vite misbehaves sometimes -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <!-- Styles -->
     {{-- <link rel="stylesheet" href="{{ asset('css/app.css') }}"> --}}
 
@@ -177,11 +179,11 @@
                         <i class="fa fa-user"></i> {{ __('User Management') }}
                     </x-admin-nav-link>
                     <hr class="my-4" />
-                @endif
+             
                 <x-admin-nav-link :href="route('admin.menus.index')" :active="request()->routeIs('admin.menus.index')">
                     <i class="fas fa-qrcode"></i> {{ __('QR Menu') }}
                 </x-admin-nav-link>
-
+                @endif
                 <!-- Logout Form -->
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
