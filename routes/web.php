@@ -42,7 +42,7 @@ Route::get('/link', function () {
 Route::get('/', [WelcomeController::class, 'index']);
 Route::get('/categories', [FrontendCategoryController::class, 'index'])->name('categories.index');
 Route::get('/categories/{category}', [FrontendCategoryController::class, 'show'])->name('categories.show');
-Route::get('/menus-dev', [FrontendMenuController::class, 'index'])->name('menus.index');
+Route::get('/menus', [FrontendMenuController::class, 'index'])->name('menus.index');
 Route::get('/menu-items/{id?}', [FrontendMenuController::class, 'menu_items'])->name('menus.menu_items');
 Route::get('/thankyou', [WelcomeController::class, 'thankyou'])->name('thankyou');
 
@@ -62,7 +62,7 @@ Route::middleware(['auth', 'admin'])->name('admin.')->prefix('admin')->group(fun
     Route::post('/reservation/filter', [TableController::class, 'filter'])->name('reservationshome.filter');
     Route::post('/reservation/location-book', [ReservationController::class, 'show'])->name('reservations.store.location');
     Route::post('/reservation/location-delete/{id?}', [LocationReservationsController::class, 'destroy'])->name('reservations.destroy.location');
-    
+
     // Categories Routes
     Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
     Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');

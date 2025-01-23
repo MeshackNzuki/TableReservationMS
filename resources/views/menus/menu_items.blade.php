@@ -8,11 +8,11 @@
 
 <body>
     <div
-        class="h-screen bg-cover object-cover bg-center w-full scroll-fixed overflow-scroll bg-[url('https://images.pexels.com/photos/2679501/pexels-photo-2679501.jpeg')]">
+        class="h-screen bg-cover object-cover bg-center w-full scroll-fixed overflow-scroll bg-[url('{{ asset("categories/$category->image") }}')]">
         <div class="max-w-screen-lg w-full px-1 bg-black bg-opacity-75 mx-auto">
             <!-- Menu Grid Section -->
             <div class="min-h-screen  text-[#efbf04]">
-                <div class="flex flex-row justify-center items-center"><a href="/menus-dev"><svg class="w-12"
+                <div class="flex flex-row justify-center items-center"><a href="/menus"><svg class="w-12"
                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round"

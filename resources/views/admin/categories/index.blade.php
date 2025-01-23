@@ -22,7 +22,10 @@
                                             class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                                             Name
                                         </th>
-
+                                        <th scope="col"
+                                            class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                            Image
+                                        </th>
                                         <th scope="col"
                                             class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                                             Description
@@ -39,7 +42,11 @@
                                                 class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                 {{ $category->name }}
                                             </td>
-
+                                            <td
+                                                class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                <img src="{{ asset($category->image) }}" alt="{{ $category->name }}"
+                                                    class="w-20 h-20 object-cover">
+                                            </td>
                                             <td
                                                 class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                 {{ $category->description }}

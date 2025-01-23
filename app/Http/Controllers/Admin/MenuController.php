@@ -20,7 +20,7 @@ class MenuController extends Controller
         $menus = Menu::all();
         return view('admin.menus.index', compact('menus'));
     }
-    
+
 
     /**
      * Show the form for creating a new resource.
@@ -36,12 +36,13 @@ class MenuController extends Controller
      */
     public function store(MenuStoreRequest $request)
     {
-        
-       // $image = $request->file('image')->store('menus', 'public');
-        if($request->file('image')){
-        $image = $request->file('image');
-        $imageName = time() . '.' . $image->getClientOriginalExtension();
-        $image->move(public_path('menus'), $imageName);}
+
+        $image = $request->file('image')->store('menus', 'public');
+        if ($request->file('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('menus'), $imageName);
+        }
 
         $menu = Menu::create([
             'name' => $request->name,
@@ -84,12 +85,11 @@ class MenuController extends Controller
             'description' => 'required',
             'price' => 'required'
         ]);
-        
+
         $image = $menu->image;
         if ($request->hasFile('image')) {
-        $imageName = time() . '.' . $image->getClientOriginalExtension();
-        $image->move(public_path('menus'), $imageName);
-
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('menus'), $imageName);
         }
 
         $menu->update([
@@ -103,7 +103,6 @@ class MenuController extends Controller
             $menu->categories()->sync($request->categories);
         }
         return to_route('admin.menus.index')->with('success', 'Menu updated successfully.');
-
     }
 
     /**
@@ -111,9 +110,8 @@ class MenuController extends Controller
      */
     public function destroy(Menu $menu)
     {
-       // Storage::delete($menu->image);
+        // Storage::delete($menu->image);
         $menu->delete();
         return to_route('admin.menus.index')->with('danger', 'Menu deleted successfully.');
-
     }
 }

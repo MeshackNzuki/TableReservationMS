@@ -36,7 +36,7 @@ class CategoryController extends Controller
 
         Category::create([
             'name' => $request->name,
-            'description' => $request->description,     
+            'description' => $request->description,
         ]);
 
         return to_route('admin.categories.index')->with('success', 'Category created successfully.');
@@ -65,12 +65,21 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'description' => 'required'
+
         ]);
+
         $image = $category->image;
+
         if ($request->hasFile('image')) {
-            Storage::delete($category->image);
-            $image = $request->file('image')->store('public/categories');
+            // Delete the old image if it exists
+            if ($image && file_exists(public_path($image))) {
+                unlink(public_path($image));
+            }
+
+            $imageFile = $request->file('image');
+            $imageName = time() . '_' . $imageFile->getClientOriginalName();
+            $imageFile->move(public_path('categories'), $imageName);
+            $image = 'categories/' . $imageName;
         }
 
         $category->update([
@@ -78,6 +87,7 @@ class CategoryController extends Controller
             'description' => $request->description,
             'image' => $image
         ]);
+
         return to_route('admin.categories.index')->with('success', 'Category updated successfully.');
     }
 
